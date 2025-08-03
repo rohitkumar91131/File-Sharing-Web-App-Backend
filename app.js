@@ -14,6 +14,27 @@ io.on("connection",(socket)=>{
    console.log("A new user is connected with socketid "+ socket.id);
    socket.on("message",(msg)=>{
      io.emit("message",msg)
+   });
+
+   socket.on("join-room-for-file-sharing",(id, callback)=>{
+    try{
+      socket.join(id);
+      console.log(id);
+      socket.to(id).emit({
+        success : true,
+        msg : "peer joined successfully"
+      })
+      callback({
+        success : true,
+        msg :"Room joined successfully"
+      })
+    }
+    catch(err){
+      callback({
+        success : false,
+        msg : err.message
+      })
+    }
    })
 })
 server.listen(process.env.PORT,()=>{
