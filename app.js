@@ -5,6 +5,11 @@ const http = require("http");
 const server = http.createServer(app);
 const {Server} = require("socket.io");
 const { callbackify } = require("util");
+const cors = require("cors");
+
+app.use(cors({
+  origin : process.env.FRONTEND_URL
+}))
 const io = new Server(server , {
    cors : {
      origin : process.env.FRONTEND_URL
@@ -12,8 +17,10 @@ const io = new Server(server , {
 })
 
 
-app.get("/",(req,res)=>{
-  res.send("Hi backend")
+app.get("/checkBackend",(req,res)=>{
+  res.json({
+    msg : "Backend connected"
+  })
 })
 io.on("connection",(socket)=>{
    console.log("A new user is connected with socketid "+ socket.id);
