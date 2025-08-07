@@ -17,7 +17,7 @@ const io = new Server(server , {
 })
 
 
-app.get("/checkBackend",(req,res)=>{
+app.get("/undefined/checkBackend",(req,res)=>{
   res.json({
     msg : "Backend connected"
   })
@@ -97,6 +97,12 @@ io.on("connection",(socket)=>{
     const {peerSocketId , metadata} = data;
     socket.to(peerSocketId).emit("file-meta-data-sended",{
       metadata
+    })
+   })
+
+   socket.on("send-file",(id , callback)=>{
+    socket.to(id).emit("send-file",{
+      from : socket.id
     })
    })
 
