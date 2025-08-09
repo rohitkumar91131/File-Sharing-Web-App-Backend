@@ -17,7 +17,7 @@ const io = new Server(server , {
 })
 
 
-app.get("/undefined/checkBackend",(req,res)=>{
+app.get("/checkBackend",(req,res)=>{
   res.json({
     msg : "Backend connected"
   })
@@ -35,6 +35,7 @@ io.on("connection",(socket)=>{
     try{
       //console.log("Peer socket Id :- "+peerSocketId)
       socket.to(peerSocketId).emit("got-peer-socket-id",{
+        success : true ,
         peerSocketId : socket.id
       });
       callback({
